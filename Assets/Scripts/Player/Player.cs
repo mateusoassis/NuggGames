@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    //velocidade de movimento do player e do tiro, respectivamente.
+
     public float moveSpeed = 10f;
     public float bulletForce = 20f;
     
     public Rigidbody rb;
 
+    //Transform para localização do ponto de onde o tiro vai sair/ Prefab da bala.
+
     public Transform firePoint;
     public GameObject bulletPrefab;
 
-    Vector3 movement;
+    //Vetor de posição para utilizar no raycast.
+
     Vector3 position;
 
     void Start()
@@ -22,7 +27,11 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        //Definindo a mira para ficar funcionando 100% do tempo no update.
+
         Aim();
+
+        //Definindo o botão esquerdo do mouse para atirar.
 
         if (Input.GetButtonDown("Fire1"))
         {
@@ -32,6 +41,7 @@ public class Player : MonoBehaviour
 
     void FixedUpdate()
     {
+        //Inputs de WASD para movimentação em 8 direções utilizando a multiplicação de velocidade por tempo.
 
         if (Input.GetKey(KeyCode.A))
         {
@@ -56,7 +66,11 @@ public class Player : MonoBehaviour
 
     void Aim()
     {
+        //Utilização de Raycast para identificar a posição do mouse na tela através da câmera.
+
         RaycastHit hit;
+
+        //Pegando o input de posição do mouse com raycast.
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -65,18 +79,29 @@ public class Player : MonoBehaviour
             position = new Vector3(hit.point.x, 0, hit.point.z);
         }
 
+        //Criando quaternion que define a rotação do player em relação ao mouse.
+
         Quaternion newRotation = Quaternion.LookRotation(position - transform.position, Vector3.forward);
+
+        //Zerando o quaternion de x e z para evitar que o player rode de formas estranhas...
 
         newRotation.x = 0f; 
         newRotation.z = 0f;
 
-        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 10);
+        //controle da velocidade da rotação.
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 20);
     }
 
     void Shoot()
     {
+        //Instanciamento de prefab do tiro de personagem.
+
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
+
+        //Adição de força no tiro para impulsionar o prefab.
+
         bulletRb.AddForce(firePoint.forward * bulletForce, ForceMode.Impulse);
     }
 }
