@@ -1417,6 +1417,79 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!1001 &1710873935
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_RootOrder
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 74.2
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.8
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.03921664
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.99923074
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 535.505
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -7635826562936255635, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: bf54a3e9898aa24469bf5f82600a2713, type: 2}
+    - target: {fileID: 919132149155446097, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_Name
+      value: Soraka Star Guardians
+      objectReference: {fileID: 0}
+    - target: {fileID: 3020015661013785482, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c8802f00b9f844e4f902113e819c9352, type: 2}
+    - target: {fileID: 8778268302289057395, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f1d0896cc65cbab4995c4d2fecf8f3e9, type: 2}
+    - target: {fileID: 9217573152396049977, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c8802f00b9f844e4f902113e819c9352, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 7f3f02865a49f4a488d88d4e04ee8652, type: 3}
 --- !u!1 &1747158834
 GameObject:
   m_ObjectHideFlags: 0
@@ -1679,7 +1752,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 4fa7d25fb61deaf4d883e13ce8ca7f48, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
