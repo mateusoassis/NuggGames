@@ -12,12 +12,12 @@ public class BossBulletScript : MonoBehaviour
 
     private void OnEnable()
     {
-        Invoke("Destroy", 3f);
+        Invoke("Destroy", 2.5f);
     }
 
     void Start()
     {
-        moveSpeed = 10f;
+        moveSpeed = 12f;
     }
 
     void Update()

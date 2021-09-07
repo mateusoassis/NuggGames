@@ -20,7 +20,7 @@ public class BossFirePattern : MonoBehaviour
 
     void Start()
     {
-        InvokeRepeating("Fire", 3f, 2f);
+        InvokeRepeating("Fire", 2f, 0.2f);
     }
 
     private void Fire()
