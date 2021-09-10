@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
 
     public Transform firePoint;
     public GameObject bulletPrefab;
+	
+	public bool recentlyDamaged;
+	
+	public GameManagerScript gameManager;
 
     //Vetor de posição para utilizar no raycast.
 
@@ -22,7 +26,9 @@ public class Player : MonoBehaviour
 
     void Start()
     {
+		gameManager = GameObject.Find("GameManagerObject").GetComponent<GameManagerScript>();
         rb = GetComponent<Rigidbody>();
+		recentlyDamaged = false;
     }
 
     void Update()
@@ -33,7 +39,7 @@ public class Player : MonoBehaviour
 
         //Definindo o botão esquerdo do mouse para atirar.
 
-        if (Input.GetButtonDown("Fire1"))
+        if (Input.GetButtonDown("Fire1") && !gameManager.pausedGame)
         {
             Shoot();
         }
@@ -42,26 +48,27 @@ public class Player : MonoBehaviour
     void FixedUpdate()
     {
         //Inputs de WASD para movimentação em 8 direções utilizando a multiplicação de velocidade por tempo.
+		if(!recentlyDamaged){
+			if (Input.GetKey(KeyCode.A))
+			{
+				rb.MovePosition(rb.position + Vector3.left * moveSpeed * Time.fixedDeltaTime);
+			}
 
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.MovePosition(rb.position + Vector3.left * moveSpeed * Time.fixedDeltaTime);
-        }
+			if (Input.GetKey(KeyCode.D))
+			{
+				rb.MovePosition(rb.position + Vector3.right * moveSpeed * Time.fixedDeltaTime);
+			}
 
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.MovePosition(rb.position + Vector3.right * moveSpeed * Time.fixedDeltaTime);
-        }
+			if (Input.GetKey(KeyCode.W))
+			{
+				rb.MovePosition(rb.position + Vector3.forward * moveSpeed * Time.fixedDeltaTime);
+			}
 
-        if (Input.GetKey(KeyCode.W))
-        {
-            rb.MovePosition(rb.position + Vector3.forward * moveSpeed * Time.fixedDeltaTime);
-        }
-
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.MovePosition(rb.position + Vector3.back * moveSpeed * Time.fixedDeltaTime);
-        }
+			if (Input.GetKey(KeyCode.S))
+			{
+				rb.MovePosition(rb.position + Vector3.back * moveSpeed * Time.fixedDeltaTime);
+			}
+		}
     }
 
     void Aim()
@@ -104,4 +111,10 @@ public class Player : MonoBehaviour
 
         bulletRb.AddForce(firePoint.forward * bulletForce, ForceMode.Impulse);
     }
+	
+	void OnCollisionEnter(Collision col){
+		if(col.gameObject.tag == "Wall"){
+			rb.velocity = Vector3.zero;
+		}
+	}
 }

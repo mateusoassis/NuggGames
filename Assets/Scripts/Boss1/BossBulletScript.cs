@@ -9,15 +9,16 @@ public class BossBulletScript : MonoBehaviour
 
     [SerializeField]
     Vector3 dir2;
-
+	
     private void OnEnable()
     {
-        Invoke("Destroy", 2.5f);
+        
     }
 
     void Start()
     {
         moveSpeed = 12f;
+		Invoke("Destroy", 8f);
     }
 
     void Update()
@@ -35,9 +36,18 @@ public class BossBulletScript : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-
+	
+	
     private void OnDisable()
     {
         CancelInvoke();
-    }	
+    }
+	void OnTriggerEnter (Collider col)
+	{
+		if(col.gameObject.tag == "Wall"){
+			Invoke("Destroy", 0f);
+		} else if(col.gameObject.tag == "Player"){
+			Debug.Log("Boss lhe acertou com tiro");
+		}
+	}	
 }

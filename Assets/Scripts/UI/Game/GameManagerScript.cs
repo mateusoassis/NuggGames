@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManagerScript : MonoBehaviour
@@ -10,11 +11,13 @@ public class GameManagerScript : MonoBehaviour
 	[SerializeField]GameObject PausePanel;
 	public bool pausedGame;
 	
+	// iniciar com booleano falso para não pausar o jogo
 	void Start()
 	{
 		pausedGame = false;
 	}
 	
+	// apertou esc = pausa o jogo, ele pausa e despausa no mesmo botão também
 	void Update()
 	{
 		if(Input.GetKeyDown(KeyCode.Escape)){
@@ -22,6 +25,7 @@ public class GameManagerScript : MonoBehaviour
 		}
 	}
 	
+	// lógica para pausar e despausar no mesmo botão
     public void PauseUnpauseGame()
 	{
 		if(!pausedGame){

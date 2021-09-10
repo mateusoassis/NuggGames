@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BossFirePattern : MonoBehaviour
+public class BossFirePattern2 : MonoBehaviour
 {
     [SerializeField]
     private int bulletsAmount = 10;

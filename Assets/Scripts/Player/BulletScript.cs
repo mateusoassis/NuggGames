@@ -15,4 +15,11 @@ public class BulletScript : MonoBehaviour
         yield return new WaitForSeconds(1.8f);
         Destroy(this.gameObject);
     }
+	
+	void OnTriggerEnter (Collider col)
+	{
+		if(col.gameObject.tag == "Wall"){
+			Destroy(this.gameObject);
+		}
+	}
 }
