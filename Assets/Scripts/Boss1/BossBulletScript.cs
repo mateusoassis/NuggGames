@@ -39,5 +39,5 @@ public class BossBulletScript : MonoBehaviour
     private void OnDisable()
     {
         CancelInvoke();
-    }
+    }	
 }

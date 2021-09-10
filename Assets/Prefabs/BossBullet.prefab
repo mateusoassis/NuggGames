@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5343705775056039164}
   - component: {fileID: 5343705775056039167}
   - component: {fileID: 5343705775056039166}
-  - component: {fileID: 5343705775056039161}
   - component: {fileID: -3997964105027317739}
+  - component: {fileID: 5343705775056039161}
   - component: {fileID: -813979803996759488}
   m_Layer: 0
   m_Name: BossBullet
@@ -84,19 +84,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &5343705775056039161
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5343705775056039160}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &-3997964105027317739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +97,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dir2: {x: 0, y: 0, z: 0}
+--- !u!135 &5343705775056039161
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343705775056039160}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &-813979803996759488
 Rigidbody:
   m_ObjectHideFlags: 0
