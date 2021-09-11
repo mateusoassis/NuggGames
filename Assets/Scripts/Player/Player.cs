@@ -23,6 +23,9 @@ public class Player : MonoBehaviour
     //Vetor de posição para utilizar no raycast.
 
     Vector3 position;
+	
+	//layer do chão para o raycast ser mirado apenas no chão 
+	[SerializeField] public LayerMask layerMask;
 
     void Start()
     {
@@ -81,7 +84,7 @@ public class Player : MonoBehaviour
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-        if(Physics.Raycast(ray, out hit , 1000))
+        if(Physics.Raycast(ray, out hit , float.MaxValue, layerMask))
         {
             position = new Vector3(hit.point.x, 0, hit.point.z);
         }

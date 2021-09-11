@@ -2968,10 +2968,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1389720247}
+  - component: {fileID: 1389720248}
   - component: {fileID: 1389720246}
   - component: {fileID: 1389720245}
   - component: {fileID: 1389720244}
-  - component: {fileID: 1389720248}
   - component: {fileID: 1389720249}
   m_Layer: 0
   m_Name: Player
@@ -3077,6 +3077,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 8166557441253211962, guid: 9337e91adf22cde469ab910c42e5eb6d, type: 3}
   recentlyDamaged: 0
   gameManager: {fileID: 0}
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!54 &1389720249
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3554,7 +3557,7 @@ GameObject:
   - component: {fileID: 1747158837}
   - component: {fileID: 1747158836}
   - component: {fileID: 1747158835}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Map
   m_TagString: Untagged
   m_Icon: {fileID: 0}
