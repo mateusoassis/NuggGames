@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Wall
+  - Boss
+  - BossBullet
+  - PlayerAttack
   layers:
   - Default
   - TransparentFX

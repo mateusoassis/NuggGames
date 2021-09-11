@@ -2973,6 +2973,7 @@ GameObject:
   - component: {fileID: 1389720245}
   - component: {fileID: 1389720244}
   - component: {fileID: 1389720249}
+  - component: {fileID: 1389720250}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -3096,6 +3097,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 1
+--- !u!114 &1389720250
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1389720243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b543e2f091003147a8cba9b250ca32c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lifeQntANDRETEAMO: 4
+  pauseMenuInvk: {fileID: 0}
 --- !u!1 &1501438837
 GameObject:
   m_ObjectHideFlags: 0
@@ -4142,9 +4157,10 @@ GameObject:
   - component: {fileID: 1926142977}
   - component: {fileID: 1926142976}
   - component: {fileID: 1926142980}
+  - component: {fileID: 1926142981}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4279,6 +4295,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
+--- !u!114 &1926142981
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926142974}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6bf8269b8834774185a4b798445f50e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bossHP: 100
+  bossHPCurrent: 0
 --- !u!1 &2026307127
 GameObject:
   m_ObjectHideFlags: 0
