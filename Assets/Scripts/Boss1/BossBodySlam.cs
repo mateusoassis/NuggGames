@@ -26,18 +26,22 @@ public class BossBodySlam : MonoBehaviour
 		playerPositionSaved = false;
 	}
 	
-	public void MoveToSlam(){
+	//BodySlam skill
+	public void MoveToSlam()
+	{
 		if(!playerPositionSaved){
+			//No caso de a posição do player ainda não ter sido identificada, o boss irá buscar a localização do player para preparar o ataque
 			targetPosition.x = player.position.x;
 			targetPosition.z = player.position.z;
 			boss.LookAt(targetPosition, Vector3.up);
+			//Após salvar, ele torna a variável verdadeira para o else dessa condição funcionar
 			playerPositionSaved = true;
 		} else {
+			//Código para movimentar o boss em direção ao player e realizar o bodyslam
 			boss.position = Vector3.MoveTowards(boss.position, targetPosition, bodySlamSpeed * Time.deltaTime);
 			if(targetPosition == boss.position){
 				bossStateScript.isBodySlamming = false;
 			}
 		}
 	}
-	
 }

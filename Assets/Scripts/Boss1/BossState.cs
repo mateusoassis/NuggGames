@@ -4,11 +4,13 @@ using UnityEngine;
 
 public class BossState : MonoBehaviour
 {
+	//Duração e delay entre os ataques do primeiro padrão de tiros
 	[Header("Tiro 1")]
 	public BossFirePattern golpe1;
 	public float golpe1Duration;
 	public float golpe1Delay;
 	
+
 	[Header("Tiro 2")]
 	public BossFirePattern2 golpe2;
 	public float golpe2Duration;
@@ -45,10 +47,7 @@ public class BossState : MonoBehaviour
 		golpe1 = GameObject.Find("BossManager").GetComponent<BossFirePattern>();
 		golpe2 = GameObject.Find("BossManager").GetComponent<BossFirePattern2>();
 		golpe3 = GameObject.Find("BossManager").GetComponent<BossBodySlam>();
-		currentState = 1;
-        //golpe1.InvokeRepeating("Fire", 2f, 0.5f);
-		//golpe2.InvokeRepeating("Fire", 2f, 1f);
-		
+		currentState = 1;	
 		StartCoroutine("StartBoss");
     }
 	

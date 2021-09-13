@@ -9,15 +9,12 @@ public class BossBulletScript : MonoBehaviour
 
     [SerializeField]
     Vector3 dir2;
-	
-    private void OnEnable()
-    {
-        
-    }
 
     void Start()
     {
+        //velocidade do tiro
         moveSpeed = 12f;
+        //destruir o tiro após 8 segundos
 		Invoke("Destroy", 8f);
     }
 
@@ -28,12 +25,14 @@ public class BossBulletScript : MonoBehaviour
 
     public void SetMoveDirection(Vector3 dir)
     {
+
         moveDirection = dir;
         dir2 = moveDirection;
     }
 
     private void Destroy()
     {
+        //Desativa as balas da pool do boss em vez de utilizar um destroy normal para não bugar na hora de chamar as variaveis
         gameObject.SetActive(false);
     }
 	
@@ -47,7 +46,7 @@ public class BossBulletScript : MonoBehaviour
 		if(col.gameObject.tag == "Wall"){
 			Invoke("Destroy", 0f);
 		} else if(col.gameObject.tag == "Player"){
-			Debug.Log("Boss lhe acertou com tiro");
+            Debug.Log("Boss lhe acertou com tiro");
 		}
 	}	
 }

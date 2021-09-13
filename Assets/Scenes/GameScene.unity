@@ -1694,14 +1694,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17ec9c0d51f95fe4eb6521103c8e52dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletsAmount: 5
+  bulletsAmount: 10
   bulDirX: 0
   bulDirZ: 0
   bulDirY: 0
   firePoint: {fileID: 1019489740}
   Player: {fileID: 1389720247}
-  startAngle: 150
-  endAngle: 210
+  startAngle: 100
+  endAngle: 320
 --- !u!4 &866273805
 Transform:
   m_ObjectHideFlags: 0
@@ -1731,7 +1731,7 @@ MonoBehaviour:
   player: {fileID: 0}
   boss: {fileID: 0}
   targetPosition: {x: 0, y: 0, z: 0}
-  bodySlamSpeed: 240
+  bodySlamSpeed: 150
   playerPositionSaved: 0
   bossStateScript: {fileID: 0}
   bossRigidbody: {fileID: 0}
@@ -3073,6 +3073,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   bulletForce: 20
+  dashForce: 100
+  startDashTime: 0.1
+  isNotMoving: 0
+  direction: 0
   rb: {fileID: 0}
   firePoint: {fileID: 2026307128}
   bulletPrefab: {fileID: 8166557441253211962, guid: 9337e91adf22cde469ab910c42e5eb6d, type: 3}
