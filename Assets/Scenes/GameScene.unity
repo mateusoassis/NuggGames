@@ -3073,8 +3073,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   bulletForce: 20
-  dashForce: 100
+  dashForce: 80
   startDashTime: 0.1
+  isOnCoolDown: 0
   isNotMoving: 0
   direction: 0
   rb: {fileID: 0}

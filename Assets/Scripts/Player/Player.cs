@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     private float dashDuration;
     public float startDashTime;
 
+    public bool isOnCoolDown;
     public bool isNotMoving;
     public int direction;
 
@@ -40,6 +41,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 		recentlyDamaged = false;
         dashDuration = startDashTime;
+        isOnCoolDown = false;
     }
 
     void Update()
@@ -126,38 +128,53 @@ public class Player : MonoBehaviour
             {
                 dashDuration -= Time.deltaTime;
 
-                if (Input.GetKey(KeyCode.Space) && direction == 1)
+                if (Input.GetKey(KeyCode.Space) && direction == 1&& !isOnCoolDown)
                 {
-                    Debug.Log("deu dash pra cima");
                     rb.velocity = Vector3.forward * dashForce;
+                    isOnCoolDown = true;
+                    StartCoroutine("ResetCooldown");
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 2)
+                else if (Input.GetKey(KeyCode.Space) && direction == 2 && !isOnCoolDown)
                 {
                     rb.velocity = Vector3.back * dashForce;
+                    isOnCoolDown = true;
+                    StartCoroutine("ResetCooldown");
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 3)
+                else if (Input.GetKey(KeyCode.Space) && direction == 3 && !isOnCoolDown)
                 {
                     rb.velocity = Vector3.left * dashForce;
+                    isOnCoolDown = true;
+                    StartCoroutine("ResetCooldown");
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 4)
+                else if (Input.GetKey(KeyCode.Space) && direction == 4 && !isOnCoolDown)
                 {
                     rb.velocity = Vector3.right * dashForce;
+                    isOnCoolDown = true;
+                    StartCoroutine("ResetCooldown");
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 5)
+                else if (Input.GetKey(KeyCode.Space) && direction == 5 && !isOnCoolDown)
                 {
                     rb.velocity = Vector3.forward + Vector3.left * dashForce;
+                    isOnCoolDown = true;
+                    StartCoroutine("ResetCooldown");
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 6)
+                else if (Input.GetKey(KeyCode.Space) && direction == 6 && !isOnCoolDown)
                 {
                     rb.velocity = Vector3.forward + Vector3.right * dashForce;
+                    isOnCoolDown = true;
+                    StartCoroutine("ResetCooldown");
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 7)
+                else if (Input.GetKey(KeyCode.Space) && direction == 7 && !isOnCoolDown)
                 {
                     rb.velocity = Vector3.back + Vector3.left * dashForce;
-                }   
-                else if (Input.GetKey(KeyCode.Space) && direction == 8)
+                    isOnCoolDown = true;
+                    StartCoroutine("ResetCooldown");
+                }         
+                else if (Input.GetKey(KeyCode.Space) && direction == 8 && !isOnCoolDown)
                 {
                     rb.velocity = Vector3.back + Vector3.right * dashForce;
+                    isOnCoolDown = true;
+                    StartCoroutine("ResetCooldown");
                 }
             }
         }
@@ -208,4 +225,10 @@ public class Player : MonoBehaviour
 			rb.velocity = Vector3.zero;
 		}
 	}
+
+    public IEnumerator ResetCooldown()
+    {
+        yield return new WaitForSeconds(1.0f);
+        isOnCoolDown = false;
+    }
 }
