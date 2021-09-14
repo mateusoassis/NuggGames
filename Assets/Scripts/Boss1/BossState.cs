@@ -109,7 +109,7 @@ public class BossState : MonoBehaviour
 	
 	void OnCollisionEnter(Collision col)
 	{
-		if(col.gameObject.tag == "Player" && !playerScript.isImmuneToDamage){
+		if(col.gameObject.tag == "Player"){
 			playerScript.recentlyDamaged = true;
 			Debug.Log("Favor não encostar no boss");
 			knockbackDirection = transform.position - player.position;
@@ -120,7 +120,6 @@ public class BossState : MonoBehaviour
 	
 	public IEnumerator ImmuneTime()
     {
-		playerScript.isImmuneToDamage = true;
         yield return new WaitForSeconds(0.2f);
         playerScript.recentlyDamaged = false;
 		playerRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode.VelocityChange);

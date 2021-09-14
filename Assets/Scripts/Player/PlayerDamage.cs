@@ -61,7 +61,7 @@ public class PlayerDamage : MonoBehaviour
 
     void OnTriggerEnter(Collider col)
     {
-        if (col.gameObject.tag == "BossBullet" && !playerScript.isImmuneToDamage)
+        if (col.gameObject.tag == "BossBullet")
         {
             lifeQnt--;
             col.gameObject.SetActive(false);
