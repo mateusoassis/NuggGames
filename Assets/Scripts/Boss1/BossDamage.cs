@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BossDamage : MonoBehaviour
 {
@@ -10,12 +11,19 @@ public class BossDamage : MonoBehaviour
     public float bossHPCurrent;
 
     public static bool bossIsDead;
+	
+	public GameObject winPanelObject;
+	
+	[Header("Barra de HP do boss")]
+	public Slider BossHPBar;
+	public float bossFillBar;
 
     // Start is called before the first frame update
     void Start()
     {
         bossHPCurrent = bossHP;
         bossIsDead = false;
+		BossHPBar.value = bossHPCurrent/bossHP;
     }
 
     // Update is called once per frame
@@ -25,7 +33,10 @@ public class BossDamage : MonoBehaviour
         {
             Destroy(this.gameObject);
             bossIsDead = true;
+			winPanelObject.SetActive(true);
+			Time.timeScale = 0f;
         }
+		BossHPBar.value = bossHPCurrent/bossHP;
     }
     
     void OnTriggerEnter(Collider col)

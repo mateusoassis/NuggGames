@@ -36,7 +36,7 @@ public class BossBulletScript : MonoBehaviour
         gameObject.SetActive(false);
     }
 	
-	
+	// ao desativar com o Destroy(), para o invoke
     private void OnDisable()
     {
         CancelInvoke();
@@ -45,8 +45,6 @@ public class BossBulletScript : MonoBehaviour
 	{
 		if(col.gameObject.tag == "Wall"){
 			Invoke("Destroy", 0f);
-		} else if(col.gameObject.tag == "Player"){
-            Debug.Log("Boss lhe acertou com tiro");
 		}
 	}	
 }

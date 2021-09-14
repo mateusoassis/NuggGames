@@ -25,6 +25,35 @@ public class GameManagerScript : MonoBehaviour
 		}
 	}
 	
+	public void MenuScene()
+	{
+		 SceneManager.LoadScene("MenuScene");
+	}
+	
+	public void GameScene()
+	{
+		SceneManager.LoadScene("GameScene");
+		TimeScaleNormal();
+	}
+	public void Retry()
+	{
+		SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+	}
+	public void TimeScaleNormal()
+	{
+		Time.timeScale = 1f;
+	}
+	
+	public void Boss2()
+	{
+		SceneManager.LoadScene("Boss2");
+	}
+	
+	public void QuitGame()
+	{
+		Application.Quit();
+	}
+	
 	// lógica para pausar e despausar no mesmo botão
     public void PauseUnpauseGame()
 	{

@@ -20,6 +20,7 @@ public class Player : MonoBehaviour
     public bool isNotMoving;
 	public bool recentlyDamaged;
     public int direction;
+	public bool isImmuneToDamage;
 
     public Rigidbody rb;
 
@@ -43,9 +44,14 @@ public class Player : MonoBehaviour
 	public float dashFillBar;
 	public Transform DashBarPosition;
 
+	void Awake()
+	{
+		gameManager = GameObject.Find("GameManagerObject").GetComponent<GameManagerScript>();
+	}
+
     void Start()
     {
-		gameManager = GameObject.Find("GameManagerObject").GetComponent<GameManagerScript>();
+		gameManager.TimeScaleNormal();
         rb = GetComponent<Rigidbody>();
 		recentlyDamaged = false;
         dashDuration = startDashTime;
@@ -66,6 +72,7 @@ public class Player : MonoBehaviour
             Shoot();
         }
 		
+		//se está em cooldown, liga a barra de cooldown EMBAIXO do player e faz ela aumentar de 0 a 1
 		if(isOnCoolDown){
 			DashCDObject.gameObject.SetActive(true);
 			DashCD.value += Time.deltaTime;
@@ -174,25 +181,25 @@ public class Player : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 5 && !isOnCoolDown)
                 {
-                    rb.velocity = Vector3.forward + Vector3.left * dashForce;
+                    rb.velocity = (Vector3.forward + Vector3.left) * (dashForce/Mathf.Sqrt(2f));
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 6 && !isOnCoolDown)
                 {
-                    rb.velocity = Vector3.forward + Vector3.right * dashForce;
+                    rb.velocity = (Vector3.forward + Vector3.right) * (dashForce/Mathf.Sqrt(2f));
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 7 && !isOnCoolDown)
                 {
-                    rb.velocity = Vector3.back + Vector3.left * dashForce;
+                    rb.velocity = (Vector3.back + Vector3.left) * (dashForce/Mathf.Sqrt(2f));
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }         
                 else if (Input.GetKey(KeyCode.Space) && direction == 8 && !isOnCoolDown)
                 {
-                    rb.velocity = Vector3.back + Vector3.right * dashForce;
+                    rb.velocity = (Vector3.back + Vector3.right) * (dashForce/Mathf.Sqrt(2f));
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }
