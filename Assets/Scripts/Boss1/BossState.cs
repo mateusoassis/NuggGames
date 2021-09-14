@@ -51,15 +51,20 @@ public class BossState : MonoBehaviour
 		StartCoroutine("StartBoss");
     }
 	
+	void Update()
+	{
+		if(currentState == 1 || currentState == 2){
+			transform.LookAt(player.position, Vector3.up);
+		}
+	}
+	
 	public void ChangeState(int state){
 		switch (state){
 			case 1:
-				transform.LookAt(player.position, Vector3.up);
 				golpe1.InvokeRepeating("Fire", 2f, golpe1Delay);
 				StartCoroutine("CancelInvoke1");
 				break;
 			case 2:
-				transform.LookAt(player.position, Vector3.up);
 				golpe2.InvokeRepeating("Fire", 1f, golpe2Delay);
 				StartCoroutine("CancelInvoke2");
 				break;

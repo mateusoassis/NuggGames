@@ -19,7 +19,7 @@ public class PlayerDamage : MonoBehaviour
         pauseMenuInvk = GameObject.Find("GameManagerObject").GetComponent<GameManagerScript>();
     }
 
-    // Update is called once per frame
+    // pausar se zerar HP
     void Update()
     {
         if (lifeQnt <= 0)

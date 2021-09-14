@@ -1,30 +1,32 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     //velocidade de movimento do player e do tiro, respectivamente.
-
+	[Header("Velocidade de Personagem e Bala")]
     public float moveSpeed = 10f;
     public float bulletForce = 20f;
 
+	[Header("Dash")]
     public float dashForce = 10f;
     private float dashDuration;
     public float startDashTime;
 
+	[Header("Booleanos e Direção")]
     public bool isOnCoolDown;
     public bool isNotMoving;
+	public bool recentlyDamaged;
     public int direction;
 
     public Rigidbody rb;
 
-    //Transform para localização do ponto de onde o tiro vai sair/ Prefab da bala.
+    [Header("Transform do firePoint da bala")]
 
     public Transform firePoint;
     public GameObject bulletPrefab;
-	
-	public bool recentlyDamaged;
 	
 	public GameManagerScript gameManager;
 
@@ -34,6 +36,12 @@ public class Player : MonoBehaviour
 	
 	//layer do chão para o raycast ser mirado apenas no chão 
 	[SerializeField] public LayerMask layerMask;
+	
+	[Header("Cooldown Bar")]
+	public GameObject DashCDObject;
+	public Slider DashCD;
+	public float dashFillBar;
+	public Transform DashBarPosition;
 
     void Start()
     {
@@ -49,13 +57,24 @@ public class Player : MonoBehaviour
         //Definindo a mira para ficar funcionando 100% do tempo no update.
 
         Aim();
-
+		
+		
         //Definindo o botão esquerdo do mouse para atirar.
 
         if (Input.GetButtonDown("Fire1") && !gameManager.pausedGame)
         {
             Shoot();
         }
+		
+		if(isOnCoolDown){
+			DashCDObject.gameObject.SetActive(true);
+			DashCD.value += Time.deltaTime;
+			Vector3 namePos = Camera.main.WorldToScreenPoint(DashBarPosition.position);
+			DashCDObject.transform.position = namePos;
+		} else {
+			DashCD.value = 0f;
+			DashCDObject.gameObject.SetActive(false);
+		}
     }
 
     void FixedUpdate()
@@ -133,6 +152,7 @@ public class Player : MonoBehaviour
                     rb.velocity = Vector3.forward * dashForce;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
+					
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 2 && !isOnCoolDown)
                 {
