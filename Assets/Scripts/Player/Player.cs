@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     private float dashDuration;
     public float startDashTime;
 
-	[Header("Booleanos e Direï¿½ï¿½o")]
+	[Header("Booleanos e Direção")]
     public bool isOnCoolDown;
     public bool isNotMoving;
 	public bool recentlyDamaged;
@@ -31,11 +31,11 @@ public class Player : MonoBehaviour
 	
 	public GameManagerScript gameManager;
 
-    //Vetor de posiï¿½ï¿½o para utilizar no raycast.
+    //Vetor de posição para utilizar no raycast.
 
     Vector3 position;
 	
-	//layer do chï¿½o para o raycast ser mirado apenas no chï¿½o 
+	//layer do chão para o raycast ser mirado apenas no chão 
 	[SerializeField] public LayerMask layerMask;
 	
 	[Header("Cooldown Bar")]
@@ -65,14 +65,14 @@ public class Player : MonoBehaviour
         Aim();
 		
 		
-        //Definindo o botï¿½o esquerdo do mouse para atirar.
+        //Definindo o botão esquerdo do mouse para atirar.
 
         if (Input.GetButtonDown("Fire1") && !gameManager.pausedGame)
         {
             Shoot();
         }
 		
-		//se estï¿½ em cooldown, liga a barra de cooldown EMBAIXO do player e faz ela aumentar de 0 a 1
+		//se está em cooldown, liga a barra de cooldown EMBAIXO do player e faz ela aumentar de 0 a 1
 		if(isOnCoolDown){
 			DashCDObject.gameObject.SetActive(true);
 			DashCD.value += Time.deltaTime;
@@ -93,32 +93,32 @@ public class Player : MonoBehaviour
             direction = 0;
         }*/
 
-        //Inputs de WASD para movimentaï¿½ï¿½o em 8 direï¿½ï¿½es utilizando a multiplicaï¿½ï¿½o de velocidade por tempo.
+        //Inputs de WASD para movimentação em 8 direções utilizando a multiplicação de velocidade por tempo.
 
         if (!recentlyDamaged)
         {
 
             if (Input.GetKey(KeyCode.W))
             {
-                rb.MovePosition(rb.position + (Vector3.right + Vector3.forward) * moveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + Vector3.forward * moveSpeed * Time.fixedDeltaTime);
                 direction = 1;
             }
 
             if (Input.GetKey(KeyCode.S))
             {
-                rb.MovePosition(rb.position + (Vector3.left + Vector3.back) * moveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + Vector3.back * moveSpeed * Time.fixedDeltaTime);
                 direction = 2;
             }
 
             if (Input.GetKey(KeyCode.A))
             {
-                rb.MovePosition(rb.position + (Vector3.forward + Vector3.left) * moveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + Vector3.left * moveSpeed * Time.fixedDeltaTime);
                 direction = 3;
             }
 
             if (Input.GetKey(KeyCode.D))
             {
-                rb.MovePosition(rb.position + (Vector3.back + Vector3.right) * moveSpeed * Time.fixedDeltaTime);
+                rb.MovePosition(rb.position + Vector3.right * moveSpeed * Time.fixedDeltaTime);
                 direction = 4;
             }
 
@@ -156,50 +156,50 @@ public class Player : MonoBehaviour
 
                 if (Input.GetKey(KeyCode.Space) && direction == 1&& !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.right + Vector3.forward) * (dashForce/Mathf.Sqrt(2f));;
+                    rb.velocity = Vector3.forward * dashForce;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
 					
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 2 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.left + Vector3.back) * (dashForce/Mathf.Sqrt(2f));;
+                    rb.velocity = Vector3.back * dashForce;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 3 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.forward + Vector3.left) * (dashForce/Mathf.Sqrt(2f));;
+                    rb.velocity = Vector3.left * dashForce;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 4 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.back + Vector3.right) * (dashForce/Mathf.Sqrt(2f));;
+                    rb.velocity = Vector3.right * dashForce;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 5 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.forward) * dashForce; 
+                    rb.velocity = (Vector3.forward + Vector3.left) * (dashForce/Mathf.Sqrt(2f));
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 6 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.right) * dashForce;
+                    rb.velocity = (Vector3.forward + Vector3.right) * (dashForce/Mathf.Sqrt(2f));
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 7 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.left) * dashForce;
+                    rb.velocity = (Vector3.back + Vector3.left) * (dashForce/Mathf.Sqrt(2f));
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }         
                 else if (Input.GetKey(KeyCode.Space) && direction == 8 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.back) * dashForce;
+                    rb.velocity = (Vector3.back + Vector3.right) * (dashForce/Mathf.Sqrt(2f));
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
                 }
@@ -208,11 +208,11 @@ public class Player : MonoBehaviour
 
     void Aim()
     {
-        //Utilizaï¿½ï¿½o de Raycast para identificar a posiï¿½ï¿½o do mouse na tela atravï¿½s da cï¿½mera.
+        //Utilização de Raycast para identificar a posição do mouse na tela através da câmera.
 
         RaycastHit hit;
 
-        //Pegando o input de posiï¿½ï¿½o do mouse com raycast.
+        //Pegando o input de posição do mouse com raycast.
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -221,7 +221,7 @@ public class Player : MonoBehaviour
             position = new Vector3(hit.point.x, 0, hit.point.z);
         }
 
-        //Criando quaternion que define a rotaï¿½ï¿½o do player em relaï¿½ï¿½o ao mouse.
+        //Criando quaternion que define a rotação do player em relação ao mouse.
 
         Quaternion newRotation = Quaternion.LookRotation(position - transform.position, Vector3.forward);
 
@@ -230,7 +230,7 @@ public class Player : MonoBehaviour
         newRotation.x = 0f; 
         newRotation.z = 0f;
 
-        //controle da velocidade da rotaï¿½ï¿½o.
+        //controle da velocidade da rotação.
 
         transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 20);
     }
@@ -242,7 +242,7 @@ public class Player : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
 
-        //Adiï¿½ï¿½o de forï¿½a no tiro para impulsionar o prefab.
+        //Adição de força no tiro para impulsionar o prefab.
 
         bulletRb.AddForce(firePoint.forward * bulletForce, ForceMode.Impulse);
     }
