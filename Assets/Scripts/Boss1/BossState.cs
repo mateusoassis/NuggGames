@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class BossState : MonoBehaviour
 {
-	//Duração e delay entre os ataques do primeiro padrão de tiros
 	[Header("Tiro 1")]
 	public BossFirePattern golpe1;
 	public float golpe1Duration;
 	public float golpe1Delay;
 	
-
 	[Header("Tiro 2")]
 	public BossFirePattern2 golpe2;
 	public float golpe2Duration;
@@ -33,9 +31,9 @@ public class BossState : MonoBehaviour
 	
 	public int state;
 	public int currentState;
-	// 1 = tiro pra todo lado
-	// 2 = tiro em 180º
-	// 3 = tiro mirado no jogador
+	// 0 = tiro pra todo lado
+	// 1 = tiro em 180º
+	// 2 = tiro mirado no jogador
 	
 	
     // Start is called before the first frame update
@@ -47,29 +45,25 @@ public class BossState : MonoBehaviour
 		golpe1 = GameObject.Find("BossManager").GetComponent<BossFirePattern>();
 		golpe2 = GameObject.Find("BossManager").GetComponent<BossFirePattern2>();
 		golpe3 = GameObject.Find("BossManager").GetComponent<BossBodySlam>();
-		currentState = 1;	
+		currentState = 1;
+        //golpe1.InvokeRepeating("Fire", 2f, 0.5f);
+		//golpe2.InvokeRepeating("Fire", 2f, 1f);
+		
 		StartCoroutine("StartBoss");
     }
-	
-	void Update()
-	{
-		// boss olha para o player enquanto tá no state 1 e 2
-		if(currentState == 1 || currentState == 2){
-			transform.LookAt(player.position, Vector3.up);
-		}
-	}
 	
 	public void ChangeState(int state){
 		switch (state){
 			case 1:
+				transform.LookAt(player.position, Vector3.up);
 				golpe1.InvokeRepeating("Fire", 2f, golpe1Delay);
 				StartCoroutine("CancelInvoke1");
 				break;
 			case 2:
+				transform.LookAt(player.position, Vector3.up);
 				golpe2.InvokeRepeating("Fire", 1f, golpe2Delay);
 				StartCoroutine("CancelInvoke2");
 				break;
-			// boss não olha pro player no state 3, só grava a posição e olha pra lá
 			case 3:
 				isBodySlamming = true;
 				transform.LookAt(player.position, Vector3.up);
@@ -81,7 +75,6 @@ public class BossState : MonoBehaviour
 		currentState = state;
 	}
 	
-	// tempo pro boss iniciar qualquer ação
 	private IEnumerator StartBoss()
 	{
 		yield return new WaitForSeconds(3f);

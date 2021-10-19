@@ -1,61 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
     //velocidade de movimento do player e do tiro, respectivamente.
-	[Header("Velocidade de Personagem e Bala")]
+
     public float moveSpeed = 10f;
     public float bulletForce = 20f;
-
-	[Header("Dash")]
-    public float dashForce = 10f;
-    private float dashDuration;
-    public float startDashTime;
-
-	[Header("Booleanos e Direï¿½ï¿½o")]
-    public bool isOnCoolDown;
-    public bool isNotMoving;
-	public bool recentlyDamaged;
-    public int direction;
-	public bool isImmuneToDamage;
-
+    
     public Rigidbody rb;
 
-    [Header("Transform do firePoint da bala")]
+    //Transform para localização do ponto de onde o tiro vai sair/ Prefab da bala.
 
     public Transform firePoint;
     public GameObject bulletPrefab;
 	
+	public bool recentlyDamaged;
+	
 	public GameManagerScript gameManager;
 
-    //Vetor de posiï¿½ï¿½o para utilizar no raycast.
+    //Vetor de posição para utilizar no raycast.
 
     Vector3 position;
 	
-	//layer do chï¿½o para o raycast ser mirado apenas no chï¿½o 
+	//layer do chão para o raycast ser mirado apenas no chão 
 	[SerializeField] public LayerMask layerMask;
-	
-	[Header("Cooldown Bar")]
-	public GameObject DashCDObject;
-	public Slider DashCD;
-	public float dashFillBar;
-	public Transform DashBarPosition;
-
-	void Awake()
-	{
-		gameManager = GameObject.Find("GameManagerObject").GetComponent<GameManagerScript>();
-	}
 
     void Start()
     {
-		gameManager.TimeScaleNormal();
+		gameManager = GameObject.Find("GameManagerObject").GetComponent<GameManagerScript>();
         rb = GetComponent<Rigidbody>();
 		recentlyDamaged = false;
-        dashDuration = startDashTime;
-        isOnCoolDown = false;
     }
 
     void Update()
@@ -63,156 +39,48 @@ public class Player : MonoBehaviour
         //Definindo a mira para ficar funcionando 100% do tempo no update.
 
         Aim();
-		
-		
-        //Definindo o botï¿½o esquerdo do mouse para atirar.
+
+        //Definindo o botão esquerdo do mouse para atirar.
 
         if (Input.GetButtonDown("Fire1") && !gameManager.pausedGame)
         {
             Shoot();
         }
-		
-		//se estï¿½ em cooldown, liga a barra de cooldown EMBAIXO do player e faz ela aumentar de 0 a 1
-		if(isOnCoolDown){
-			DashCDObject.gameObject.SetActive(true);
-			DashCD.value += Time.deltaTime;
-			Vector3 namePos = Camera.main.WorldToScreenPoint(DashBarPosition.position);
-			DashCDObject.transform.position = namePos;
-		} else {
-			DashCD.value = 0f;
-			DashCDObject.gameObject.SetActive(false);
-		}
     }
 
     void FixedUpdate()
     {
+        //Inputs de WASD para movimentação em 8 direções utilizando a multiplicação de velocidade por tempo.
+		if(!recentlyDamaged){
+			if (Input.GetKey(KeyCode.A))
+			{
+				rb.MovePosition(rb.position + Vector3.left * moveSpeed * Time.fixedDeltaTime);
+			}
 
-        /*if (rb.velocity.x == 0 && rb.velocity.y == 0 && rb.velocity.z == 0)
-        {
-            isNotMoving = true;
-            direction = 0;
-        }*/
+			if (Input.GetKey(KeyCode.D))
+			{
+				rb.MovePosition(rb.position + Vector3.right * moveSpeed * Time.fixedDeltaTime);
+			}
 
-        //Inputs de WASD para movimentaï¿½ï¿½o em 8 direï¿½ï¿½es utilizando a multiplicaï¿½ï¿½o de velocidade por tempo.
+			if (Input.GetKey(KeyCode.W))
+			{
+				rb.MovePosition(rb.position + Vector3.forward * moveSpeed * Time.fixedDeltaTime);
+			}
 
-        if (!recentlyDamaged)
-        {
-
-            if (Input.GetKey(KeyCode.W))
-            {
-                rb.MovePosition(rb.position + (Vector3.right + Vector3.forward) * moveSpeed * Time.fixedDeltaTime);
-                direction = 1;
-            }
-
-            if (Input.GetKey(KeyCode.S))
-            {
-                rb.MovePosition(rb.position + (Vector3.left + Vector3.back) * moveSpeed * Time.fixedDeltaTime);
-                direction = 2;
-            }
-
-            if (Input.GetKey(KeyCode.A))
-            {
-                rb.MovePosition(rb.position + (Vector3.forward + Vector3.left) * moveSpeed * Time.fixedDeltaTime);
-                direction = 3;
-            }
-
-            if (Input.GetKey(KeyCode.D))
-            {
-                rb.MovePosition(rb.position + (Vector3.back + Vector3.right) * moveSpeed * Time.fixedDeltaTime);
-                direction = 4;
-            }
-
-            if (Input.GetKey(KeyCode.W)&& Input.GetKey(KeyCode.A))
-            {
-                direction = 5;
-            }
-
-            if (Input.GetKey(KeyCode.W)&& Input.GetKey(KeyCode.D))
-            {
-                direction = 6;
-            }
-
-            if (Input.GetKey(KeyCode.S)&& Input.GetKey(KeyCode.A))
-            {
-                direction = 7;
-            }
-
-            if (Input.GetKey(KeyCode.S)&& Input.GetKey(KeyCode.D))
-            {
-                direction = 8;
-            }
-
-
-        }
-            if (dashDuration <= 0)
-            {
-                direction = 0;
-                dashDuration = startDashTime;
-                rb.velocity = Vector3.zero;
-            }
-            else
-            {
-                dashDuration -= Time.deltaTime;
-
-                if (Input.GetKey(KeyCode.Space) && direction == 1&& !isOnCoolDown)
-                {
-                    rb.velocity = (Vector3.right + Vector3.forward) * (dashForce/Mathf.Sqrt(2f));;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-					
-                }
-                else if (Input.GetKey(KeyCode.Space) && direction == 2 && !isOnCoolDown)
-                {
-                    rb.velocity = (Vector3.left + Vector3.back) * (dashForce/Mathf.Sqrt(2f));;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-                }
-                else if (Input.GetKey(KeyCode.Space) && direction == 3 && !isOnCoolDown)
-                {
-                    rb.velocity = (Vector3.forward + Vector3.left) * (dashForce/Mathf.Sqrt(2f));;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-                }
-                else if (Input.GetKey(KeyCode.Space) && direction == 4 && !isOnCoolDown)
-                {
-                    rb.velocity = (Vector3.back + Vector3.right) * (dashForce/Mathf.Sqrt(2f));;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-                }
-                else if (Input.GetKey(KeyCode.Space) && direction == 5 && !isOnCoolDown)
-                {
-                    rb.velocity = (Vector3.forward) * dashForce; 
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-                }
-                else if (Input.GetKey(KeyCode.Space) && direction == 6 && !isOnCoolDown)
-                {
-                    rb.velocity = (Vector3.right) * dashForce;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-                }
-                else if (Input.GetKey(KeyCode.Space) && direction == 7 && !isOnCoolDown)
-                {
-                    rb.velocity = (Vector3.left) * dashForce;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-                }         
-                else if (Input.GetKey(KeyCode.Space) && direction == 8 && !isOnCoolDown)
-                {
-                    rb.velocity = (Vector3.back) * dashForce;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-                }
-            }
-        }
+			if (Input.GetKey(KeyCode.S))
+			{
+				rb.MovePosition(rb.position + Vector3.back * moveSpeed * Time.fixedDeltaTime);
+			}
+		}
+    }
 
     void Aim()
     {
-        //Utilizaï¿½ï¿½o de Raycast para identificar a posiï¿½ï¿½o do mouse na tela atravï¿½s da cï¿½mera.
+        //Utilização de Raycast para identificar a posição do mouse na tela através da câmera.
 
         RaycastHit hit;
 
-        //Pegando o input de posiï¿½ï¿½o do mouse com raycast.
+        //Pegando o input de posição do mouse com raycast.
 
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -221,7 +89,7 @@ public class Player : MonoBehaviour
             position = new Vector3(hit.point.x, 0, hit.point.z);
         }
 
-        //Criando quaternion que define a rotaï¿½ï¿½o do player em relaï¿½ï¿½o ao mouse.
+        //Criando quaternion que define a rotação do player em relação ao mouse.
 
         Quaternion newRotation = Quaternion.LookRotation(position - transform.position, Vector3.forward);
 
@@ -230,7 +98,7 @@ public class Player : MonoBehaviour
         newRotation.x = 0f; 
         newRotation.z = 0f;
 
-        //controle da velocidade da rotaï¿½ï¿½o.
+        //controle da velocidade da rotação.
 
         transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 20);
     }
@@ -242,7 +110,7 @@ public class Player : MonoBehaviour
         GameObject bullet = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         Rigidbody bulletRb = bullet.GetComponent<Rigidbody>();
 
-        //Adiï¿½ï¿½o de forï¿½a no tiro para impulsionar o prefab.
+        //Adição de força no tiro para impulsionar o prefab.
 
         bulletRb.AddForce(firePoint.forward * bulletForce, ForceMode.Impulse);
     }
@@ -252,10 +120,4 @@ public class Player : MonoBehaviour
 			rb.velocity = Vector3.zero;
 		}
 	}
-
-    public IEnumerator ResetCooldown()
-    {
-        yield return new WaitForSeconds(1.0f);
-        isOnCoolDown = false;
-    }
 }
