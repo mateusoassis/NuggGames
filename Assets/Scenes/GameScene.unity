@@ -4663,8 +4663,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 15
   bulletForce: 20
-  dashForce: 40
-  startDashTime: 0.1
+  dashForce: 10
+  startDashTime: 0
   isOnCoolDown: 0
   isNotMoving: 0
   recentlyDamaged: 0
@@ -4680,7 +4680,7 @@ MonoBehaviour:
   DashCDObject: {fileID: 1069374255}
   DashCD: {fileID: 1069374257}
   dashFillBar: 0
-  DashBarPosition: {fileID: 1400680072}
+  DashBarPosition: {fileID: 1069374256}
 --- !u!54 &1389720249
 Rigidbody:
   m_ObjectHideFlags: 0

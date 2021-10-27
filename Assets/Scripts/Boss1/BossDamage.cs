@@ -1,11 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
 using UnityEngine.UI;
-=======
-using
->>>>>>> parent of a93efd6... Alguma coisa, não sei o que mexi
 
 public class BossDamage : MonoBehaviour
 {
