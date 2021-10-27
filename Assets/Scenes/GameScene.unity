@@ -4661,12 +4661,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 10a9ad7c051abf94d810e5aa475c7366, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 15
-  bulletForce: 20
-  dashForce: 10
-  startDashTime: 0
+  moveSpeed: 7.5
+  bulletForce: 25
+  dashForce: 20
+  startDashTime: 0.2
   isOnCoolDown: 0
   isNotMoving: 0
+  isDashing: 0
   recentlyDamaged: 0
   direction: 0
   isImmuneToDamage: 0
@@ -4680,7 +4681,7 @@ MonoBehaviour:
   DashCDObject: {fileID: 1069374255}
   DashCD: {fileID: 1069374257}
   dashFillBar: 0
-  DashBarPosition: {fileID: 1069374256}
+  DashBarPosition: {fileID: 1400680072}
 --- !u!54 &1389720249
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6141,7 +6142,7 @@ MonoBehaviour:
   playerRigidbody: {fileID: 0}
   playerScript: {fileID: 0}
   knockbackDirection: {x: 0, y: 0, z: 0}
-  knockbackForce: 15
+  knockbackForce: 16
   state: 0
   currentState: 0
 --- !u!65 &1926142976

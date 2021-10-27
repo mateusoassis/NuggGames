@@ -113,15 +113,16 @@ public class BossState : MonoBehaviour
 			playerScript.recentlyDamaged = true;
 			Debug.Log("Favor não encostar no boss");
 			knockbackDirection = transform.position - player.position;
-			playerRigidbody.AddForce(-knockbackDirection * knockbackForce, ForceMode.VelocityChange);
+			playerRigidbody.velocity = Vector3.zero;
+			playerRigidbody.AddForce(-knockbackDirection * knockbackForce, ForceMode.Impulse);
 			StartCoroutine("ImmuneTime");
 		}
 	}
 	
 	public IEnumerator ImmuneTime()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.3f);
         playerScript.recentlyDamaged = false;
-		playerRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode.VelocityChange);
+		//playerRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode.ImpulseMode);
     }
 }
