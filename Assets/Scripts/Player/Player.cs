@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
 
 	[Header("Dash")]
     public float dashForce = 10f;
-    private float dashDuration;
+    public float dashDuration;
     public float startDashTime;
 
 	[Header("Booleanos e Direcao")]
@@ -153,11 +153,12 @@ public class Player : MonoBehaviour
             }
             else
             {
-                dashDuration -= Time.deltaTime;
-
+                
+				//FORÇA ADICIONADA EM CADA DIREÇÃO, os que tem /mathf.sqrt(2f) são por que são em diagonal, aí precisa dividir por raiz de 2 para ter o dash na mesma distância que os nas direções normais
                 if (Input.GetKey(KeyCode.Space) && direction == 1 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.right + Vector3.forward) * ((dashForce)/Mathf.Sqrt(2f));
+                    //rb.velocity = (Vector3.right + Vector3.forward) * ((dashForce)/Mathf.Sqrt(2f)) * (Time.fixedDeltaTime);
+					rb.AddForce((Vector3.right + Vector3.forward) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
                     isDashing = true;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
@@ -165,7 +166,8 @@ public class Player : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 2 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.left + Vector3.back) * ((dashForce)/Mathf.Sqrt(2f));
+                    //rb.velocity = (Vector3.left + Vector3.back) * ((dashForce)/Mathf.Sqrt(2f)) * (Time.fixedDeltaTime);
+					rb.AddForce((Vector3.left + Vector3.back) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
                     isDashing = true;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
@@ -173,7 +175,8 @@ public class Player : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 3 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.forward + Vector3.left) * ((dashForce)/Mathf.Sqrt(2f));
+                    //rb.velocity = (Vector3.forward + Vector3.left) * ((dashForce)/Mathf.Sqrt(2f)) * (Time.fixedDeltaTime);
+					rb.AddForce((Vector3.forward + Vector3.left) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
                     isDashing = true;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
@@ -181,7 +184,8 @@ public class Player : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 4 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.back + Vector3.right) * ((dashForce)/Mathf.Sqrt(2f));
+                    //rb.velocity = (Vector3.back + Vector3.right) * ((dashForce)/Mathf.Sqrt(2f)) * (Time.fixedDeltaTime);
+					rb.AddForce((Vector3.back + Vector3.right) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
 					isDashing = true;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
@@ -189,7 +193,8 @@ public class Player : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 5 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.forward) * (dashForce); 
+                    //rb.velocity = (Vector3.forward) * (dashForce) * (Time.fixedDeltaTime); 
+					rb.AddForce(Vector3.forward * dashForce, ForceMode.VelocityChange);
                     isDashing = true;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
@@ -197,7 +202,8 @@ public class Player : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 6 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.right) * (dashForce);
+                    //rb.velocity = (Vector3.right) * (dashForce) * (Time.fixedDeltaTime);
+					rb.AddForce(Vector3.right * dashForce, ForceMode.VelocityChange);
                     isDashing = true;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
@@ -205,7 +211,8 @@ public class Player : MonoBehaviour
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 7 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.left) * (dashForce);
+                    //rb.velocity = (Vector3.left) * (dashForce) * (Time.fixedDeltaTime);
+					rb.AddForce(Vector3.left * dashForce, ForceMode.VelocityChange);
                     isDashing = true;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
@@ -213,12 +220,17 @@ public class Player : MonoBehaviour
                 }         
                 else if (Input.GetKey(KeyCode.Space) && direction == 8 && !isOnCoolDown)
                 {
-                    rb.velocity = (Vector3.back) * (dashForce);
+                    //rb.velocity = (Vector3.back) * (dashForce) * (Time.fixedDeltaTime);
+					rb.AddForce(Vector3.back * dashForce, ForceMode.VelocityChange);
                     isDashing = true;
                     isOnCoolDown = true;
                     StartCoroutine("ResetCooldown");
 					direction = 0;
                 }
+				if(isDashing)
+				{
+					dashDuration -= Time.deltaTime;
+				}
             }
         }
 
