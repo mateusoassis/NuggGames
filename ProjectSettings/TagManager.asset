@@ -8,6 +8,8 @@ TagManager:
   - Boss
   - BossBullet
   - PlayerAttack
+  - Mirror1
+  - Mirror2
   layers:
   - Default
   - TransparentFX

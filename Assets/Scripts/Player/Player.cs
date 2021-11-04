@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
 	[Header("Velocidade de Personagem e Bala")]
     public float moveSpeed = 10f;
     public float bulletForce = 20f;
+    public float reflectionSpeed;
 
 	[Header("Dash")]
     public float dashForce = 10f;
