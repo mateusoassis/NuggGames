@@ -16,7 +16,7 @@ public class BossMirrorAttack : MonoBehaviour
     {
         transform.Rotate(0,rotationSpeed*Time.deltaTime,0);
 
-        if (bossTarget.position.z > transform.position.z||bossTarget.position.x > transform.position.x)
+        if (bossTarget.position.z > transform.position.z||bossTarget.position.x > transform.position.x||bossTarget.position.x < transform.position.x||bossTarget.position.z<transform.position.z)
         {
             Vector3 newPosition = new Vector3(bossTarget.position.x, transform.position.y, bossTarget.position.z);
             transform.position = newPosition;
