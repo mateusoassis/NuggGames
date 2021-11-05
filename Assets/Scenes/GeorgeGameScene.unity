@@ -4719,16 +4719,13 @@ MonoBehaviour:
   direction: 0
   isImmuneToDamage: 0
   rb: {fileID: 0}
+  playerAttributes: {fileID: 0}
   firePoint: {fileID: 2026307128}
   bulletPrefab: {fileID: 8166557441253211962, guid: 9337e91adf22cde469ab910c42e5eb6d, type: 3}
   gameManager: {fileID: 0}
   layerMask:
     serializedVersion: 2
     m_Bits: 128
-  DashCDObject: {fileID: 1069374255}
-  DashCD: {fileID: 1069374257}
-  dashFillBar: 0
-  DashBarPosition: {fileID: 1400680072}
 --- !u!54 &1389720249
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -4757,12 +4754,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b543e2f091003147a8cba9b250ca32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeQntANDRETEAMO: 4
+  currentLife: 0
+  maxLife: 3
+  heartAmount: []
+  filledHeart: {fileID: 0}
+  emptyHeart: {fileID: 0}
+  currentMana: 0
+  maxMana: 100
+  manaAmount: []
+  canUseOrNot: []
+  playerManaPoolSlider: {fileID: 0}
+  manaFill: {fileID: 0}
   pauseMenuInvk: {fileID: 0}
   losePanelObject: {fileID: 1209153524}
   playerScript: {fileID: 0}
   bossStateScript: {fileID: 0}
   PlayerHealth: {fileID: 1583242850}
+  PlayerMana: {fileID: 0}
   BossHealth: {fileID: 1365093062}
   TimeStamp: {fileID: 1224710800}
 --- !u!1 &1400680071
@@ -5413,7 +5421,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 1704d1db55f916d4283dc0bd6058a360, type: 2}
+  - {fileID: 2100000, guid: 825ffff5ed9ded146972c789f79595e3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6032,6 +6040,7 @@ MonoBehaviour:
   winPanelObject: {fileID: 1283836870}
   BossHPBar: {fileID: 1362279259}
   bossFillBar: 0
+  playerAttributes: {fileID: 0}
 --- !u!1 &1955446636
 GameObject:
   m_ObjectHideFlags: 0
