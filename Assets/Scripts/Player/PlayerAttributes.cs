@@ -17,6 +17,9 @@ public class PlayerAttributes : MonoBehaviour
 	
 	public int currentMana;
 	public int maxMana = 100;
+	public Image[] manaAmount;
+	
+	public GameObject[] canUseOrNot;
 	
 	public Slider playerManaPoolSlider;
 	public RectTransform manaFill;
@@ -83,7 +86,7 @@ public class PlayerAttributes : MonoBehaviour
 			heartAmount[0].sprite = filledHeart;
 			heartAmount[1].sprite = filledHeart;
 			heartAmount[2].sprite = filledHeart;
-		} else if(currentLife == 2)
+		} else if (currentLife == 2)
 		{
 			heartAmount[0].sprite = filledHeart;
 			heartAmount[1].sprite = filledHeart;
@@ -103,7 +106,44 @@ public class PlayerAttributes : MonoBehaviour
 	public void UpdateMana()
 	{
 		PlayerMana.SetText("Mana: " + Mathf.Clamp(currentMana, 0f, 100f).ToString());
-		playerManaPoolSlider.value = Mathf.Clamp(currentMana, 0f, 100f)/maxMana;		
+		playerManaPoolSlider.value = Mathf.Clamp(currentMana, 0f, 100f)/maxMana;
+
+		for(int i = 0; i < 5; i++)
+		{
+			if(currentMana < ((i*20)+20))
+			{
+				manaAmount[i].fillAmount = (float)(currentMana-(i*20))/20;
+			} else 
+			{
+				manaAmount[i].fillAmount = 1f;
+			}
+		}
+		//aparecer X em cima do botão SHIELD caso não possa usar
+		if(currentMana >= 20)
+		{
+			canUseOrNot[0].gameObject.SetActive(false);
+		} else
+		{
+			canUseOrNot[0].gameObject.SetActive(true);
+		}
+		
+		//aparecer X em cima do botão HEAL caso não possa usar
+		if(currentMana >= 100)
+		{
+			canUseOrNot[1].gameObject.SetActive(false);
+		} else
+		{
+			canUseOrNot[1].gameObject.SetActive(true);
+		}
+		
+		//aparecer X em cima do botão LASER caso não possa usar
+		if(currentMana >= 10)
+		{
+			canUseOrNot[2].gameObject.SetActive(false);
+		} else
+		{
+			canUseOrNot[2].gameObject.SetActive(true);
+		}
 	}
 	
 	public void SpendMana(int amount)
