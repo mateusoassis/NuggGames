@@ -23,8 +23,13 @@ public class Player : MonoBehaviour
 	public bool recentlyDamaged;
     public int direction;
 	public bool isImmuneToDamage;
+	private CapsuleCollider playerCollider;
 
+	[Header("Rigidbody do Player")]
     public Rigidbody rb;
+	
+	[Header("Sistema de Mana")]
+	public PlayerAttributes playerAttributes;
 
     [Header("Transform do firePoint da bala")]
 
@@ -32,6 +37,16 @@ public class Player : MonoBehaviour
     public GameObject bulletPrefab;
 	
 	public GameManagerScript gameManager;
+	
+	//direcoes
+	// 1 cima
+	// 2 baixo
+	// 3 esquerda
+	// 4 direita
+	// 5 cima-esquerda
+	// 6 cima-direita
+	// 7 baixo-esquerda
+	// 8 baixo-direita
 
     //Vetor de posicao para utilizar no raycast.
 
@@ -39,12 +54,6 @@ public class Player : MonoBehaviour
 	
 	//layer do chao para o raycast ser mirado apenas no ch�o 
 	[SerializeField] public LayerMask layerMask;
-	
-	[Header("Cooldown Bar")]
-	public GameObject DashCDObject;
-	public Slider DashCD;
-	public float dashFillBar;
-	public Transform DashBarPosition;
 
 	void Awake()
 	{
@@ -54,11 +63,12 @@ public class Player : MonoBehaviour
     void Start()
     {
 		gameManager.TimeScaleNormal();
+		playerAttributes = GetComponent<PlayerAttributes>();
         rb = GetComponent<Rigidbody>();
 		recentlyDamaged = false;
         dashDuration = startDashTime;
-        isOnCoolDown = false;
 		isDashing = false;
+		playerCollider = GetComponent<CapsuleCollider>();
     }
 
     void Update()
@@ -66,7 +76,8 @@ public class Player : MonoBehaviour
         //Definindo a mira para ficar funcionando 100% do tempo no update.
 
         Aim();
-		
+		//DashImmune();
+		//lembrar de checar esse imune nas balas depois
 		
         //Definindo o bot�o esquerdo do mouse para atirar.
 
@@ -74,28 +85,15 @@ public class Player : MonoBehaviour
         {
             Shoot();
         }
-		
-		//se est� em cooldown, liga a barra de cooldown EMBAIXO do player e faz ela aumentar de 0 a 1
-		if(isOnCoolDown){
-			DashCDObject.gameObject.SetActive(true);
-			DashCD.value += Time.deltaTime;
-			Vector3 namePos = Camera.main.WorldToScreenPoint(DashBarPosition.position);
-			DashCDObject.transform.position = namePos;
-		} else {
-			DashCD.value = 0f;
-			DashCDObject.gameObject.SetActive(false);
+		if (Input.GetKey(KeyCode.E) && playerAttributes.currentMana == playerAttributes.maxMana)
+		{
+			playerAttributes.CastHeal();
 		}
+		
     }
 
     void FixedUpdate()
     {
-
-        /*if (rb.velocity.x == 0 && rb.velocity.y == 0 && rb.velocity.z == 0)
-        {
-            isNotMoving = true;
-            direction = 0;
-        }*/
-
         //Inputs de WASD para movimentacao em 8 direcoes utilizando a multiplicacao de velocidade por tempo.
 
         if (!recentlyDamaged && !isDashing)
@@ -147,7 +145,6 @@ public class Player : MonoBehaviour
         }
             if (dashDuration <= 0)
             {
-                //direction = 0;
                 dashDuration = startDashTime;
                 rb.velocity = Vector3.zero;
 				isDashing = false;
@@ -156,76 +153,53 @@ public class Player : MonoBehaviour
             {
                 
 				//FORÇA ADICIONADA EM CADA DIREÇÃO, os que tem /mathf.sqrt(2f) são por que são em diagonal, aí precisa dividir por raiz de 2 para ter o dash na mesma distância que os nas direções normais
-                if (Input.GetKey(KeyCode.Space) && direction == 1 && !isOnCoolDown)
+                if (Input.GetKey(KeyCode.Space) && direction == 1 && !isDashing)
                 {
-                    //rb.velocity = (Vector3.right + Vector3.forward) * ((dashForce)/Mathf.Sqrt(2f)) * (Time.fixedDeltaTime);
 					rb.AddForce((Vector3.right + Vector3.forward) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
-                    isDashing = true;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
+                    isDashing = true;                    
 					direction = 0;
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 2 && !isOnCoolDown)
-                {
-                    //rb.velocity = (Vector3.left + Vector3.back) * ((dashForce)/Mathf.Sqrt(2f)) * (Time.fixedDeltaTime);
+                else if (Input.GetKey(KeyCode.Space) && direction == 2 && !isDashing)
+                {                   
 					rb.AddForce((Vector3.left + Vector3.back) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
                     isDashing = true;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
 					direction = 0;
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 3 && !isOnCoolDown)
+                else if (Input.GetKey(KeyCode.Space) && direction == 3 && !isDashing)
                 {
-                    //rb.velocity = (Vector3.forward + Vector3.left) * ((dashForce)/Mathf.Sqrt(2f)) * (Time.fixedDeltaTime);
 					rb.AddForce((Vector3.forward + Vector3.left) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
                     isDashing = true;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-					direction = 0;
+					direction = 0;				
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 4 && !isOnCoolDown)
+                else if (Input.GetKey(KeyCode.Space) && direction == 4 && !isDashing)
                 {
-                    //rb.velocity = (Vector3.back + Vector3.right) * ((dashForce)/Mathf.Sqrt(2f)) * (Time.fixedDeltaTime);
-					rb.AddForce((Vector3.back + Vector3.right) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
+                  	rb.AddForce((Vector3.back + Vector3.right) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
 					isDashing = true;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
 					direction = 0;
+					
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 5 && !isOnCoolDown)
+                else if (Input.GetKey(KeyCode.Space) && direction == 5 && !isDashing)
                 {
-                    //rb.velocity = (Vector3.forward) * (dashForce) * (Time.fixedDeltaTime); 
 					rb.AddForce(Vector3.forward * dashForce, ForceMode.VelocityChange);
                     isDashing = true;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-					direction = 0;
+					direction = 0;				
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 6 && !isOnCoolDown)
+                else if (Input.GetKey(KeyCode.Space) && direction == 6 && !isDashing)
                 {
-                    //rb.velocity = (Vector3.right) * (dashForce) * (Time.fixedDeltaTime);
 					rb.AddForce(Vector3.right * dashForce, ForceMode.VelocityChange);
                     isDashing = true;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-					direction = 0;
+					direction = 0;					
                 }
-                else if (Input.GetKey(KeyCode.Space) && direction == 7 && !isOnCoolDown)
+                else if (Input.GetKey(KeyCode.Space) && direction == 7 && !isDashing)
                 {
-                    //rb.velocity = (Vector3.left) * (dashForce) * (Time.fixedDeltaTime);
 					rb.AddForce(Vector3.left * dashForce, ForceMode.VelocityChange);
                     isDashing = true;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
-					direction = 0;
+					direction = 0;					
                 }         
-                else if (Input.GetKey(KeyCode.Space) && direction == 8 && !isOnCoolDown)
+                else if (Input.GetKey(KeyCode.Space) && direction == 8 && !isDashing)
                 {
-                    //rb.velocity = (Vector3.back) * (dashForce) * (Time.fixedDeltaTime);
-					rb.AddForce(Vector3.back * dashForce, ForceMode.VelocityChange);
+                    rb.AddForce(Vector3.back * dashForce, ForceMode.VelocityChange);
                     isDashing = true;
-                    isOnCoolDown = true;
-                    StartCoroutine("ResetCooldown");
 					direction = 0;
                 }
 				if(isDashing)
@@ -234,7 +208,7 @@ public class Player : MonoBehaviour
 				}
             }
         }
-
+	
     void Aim()
     {
         //Utilizacao de Raycast para identificar a posicao do mouse na tela atrav�s da c�mera.
@@ -263,7 +237,17 @@ public class Player : MonoBehaviour
 
         transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * 20);
     }
-
+	
+	/*public void DashImmune()
+	{
+		if(isDashing)
+		{
+			playerCollider.enabled = false;
+		} else {
+			playerCollider.enabled = true;
+		}
+	}*/
+	
     void Shoot()
     {
         //Instanciamento de prefab do tiro de personagem.
@@ -281,10 +265,4 @@ public class Player : MonoBehaviour
 			rb.velocity = Vector3.zero;
 		}
 	}
-
-    public IEnumerator ResetCooldown()
-    {
-        yield return new WaitForSeconds(1.0f);
-        isOnCoolDown = false;
-    }
 }

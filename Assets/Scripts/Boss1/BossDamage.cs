@@ -17,6 +17,8 @@ public class BossDamage : MonoBehaviour
 	[Header("Barra de HP do boss")]
 	public Slider BossHPBar;
 	public float bossFillBar;
+	
+	public PlayerAttributes playerAttributes;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +26,7 @@ public class BossDamage : MonoBehaviour
         bossHPCurrent = bossHP;
         bossIsDead = false;
 		BossHPBar.value = bossHPCurrent/bossHP;
+		playerAttributes = GameObject.Find("Player").GetComponent<PlayerAttributes>();
     }
 
     // Update is called once per frame
@@ -44,6 +47,9 @@ public class BossDamage : MonoBehaviour
         if(col.gameObject.tag == "PlayerAttack")
         {
             bossHPCurrent--;
+			if(playerAttributes.currentMana < playerAttributes.maxMana){
+				playerAttributes.currentMana++;
+			}			
             Destroy(col.gameObject);
         }
     }

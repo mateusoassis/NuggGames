@@ -6,6 +6,9 @@ public class BossBulletScript : MonoBehaviour
 {
     private Vector3 moveDirection;
     private float moveSpeed;
+	private SphereCollider bulletCollider;
+	private Player player;
+	private PlayerAttributes playerAttributes;
 
     [SerializeField]
     Vector3 dir2;
@@ -14,6 +17,9 @@ public class BossBulletScript : MonoBehaviour
     {
         //velocidade do tiro
         moveSpeed = 12f;
+		bulletCollider = GetComponent<SphereCollider>();
+		player = GameObject.Find("Player").GetComponent<Player>();
+		playerAttributes = GameObject.Find("Player").GetComponent<PlayerAttributes>();
         //destruir o tiro após 8 segundos
 		Invoke("Destroy", 8f);
     }
@@ -43,8 +49,31 @@ public class BossBulletScript : MonoBehaviour
     }
 	void OnTriggerEnter (Collider col)
 	{
-		if(col.gameObject.tag == "Wall"){
+		if(col.gameObject.tag == "Wall")
+		{
 			Invoke("Destroy", 0f);
 		}
+		if(col.gameObject.tag == "Player")
+		{
+			if(player.isDashing){
+				bulletCollider.enabled = false;
+			} else {
+				playerAttributes.currentLife--;
+				this.gameObject.SetActive(false);	
+			}
+		}
 	}	
+	void OnTriggerExit(Collider col)
+	{
+		if(col.gameObject.tag == "Player")
+		{
+			StartCoroutine("WaitTenthOfSecond");
+			bulletCollider.enabled = true;
+		}
+	}
+	
+	public IEnumerator WaitTenthOfSecond()
+	{
+		yield return new WaitForSeconds(0.1f);
+	}
 }

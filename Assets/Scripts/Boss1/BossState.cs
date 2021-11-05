@@ -114,7 +114,6 @@ public class BossState : MonoBehaviour
 			Debug.Log("Favor não encostar no boss");
 			knockbackDirection = transform.position - player.position;
 			playerRigidbody.velocity = Vector3.zero;
-			playerRigidbody.AddForce(-knockbackDirection * knockbackForce, ForceMode.Impulse);
 			StartCoroutine("ImmuneTime");
 		}
 	}
