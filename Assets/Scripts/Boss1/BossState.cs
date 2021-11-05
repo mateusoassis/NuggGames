@@ -26,7 +26,6 @@ public class BossState : MonoBehaviour
 	[Header("Ignora, André")]
 	public Transform player;
 	public Rigidbody playerRigidbody;
-	
 	public Player playerScript;
 	public Vector3 knockbackDirection;
 	public float knockbackForce;
