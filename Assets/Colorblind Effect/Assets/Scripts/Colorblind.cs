@@ -67,6 +67,8 @@ namespace Wilberforce
 
             isSupported = true;
         }
+		
+		
 
         private static Material CreateMaterial(Shader shader)
         {
