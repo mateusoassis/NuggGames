@@ -28,6 +28,7 @@ public class BossState : MonoBehaviour
 	public Rigidbody playerRigidbody;
 	public Player playerScript;
 	public Vector3 knockbackDirection;
+	private BoxCollider boxCol;
 	public float knockbackForce;
 	
 	public int state;
@@ -46,6 +47,7 @@ public class BossState : MonoBehaviour
 		golpe1 = GameObject.Find("BossManager").GetComponent<BossFirePattern>();
 		golpe2 = GameObject.Find("BossManager").GetComponent<BossFirePattern2>();
 		golpe3 = GameObject.Find("BossManager").GetComponent<BossBodySlam>();
+		boxCol = GetComponent<BoxCollider>();
 		currentState = 1;	
 		StartCoroutine("StartBoss");
     }
@@ -55,6 +57,12 @@ public class BossState : MonoBehaviour
 		// boss olha para o player enquanto tá no state 1 e 2
 		if(currentState == 1 || currentState == 2){
 			transform.LookAt(player.position, Vector3.up);
+		}
+
+		if(playerScript.isDashing)
+		{
+			boxCol.isTrigger = true;
+			StartCoroutine("WaitForCollision");
 		}
 	}
 	
@@ -116,6 +124,8 @@ public class BossState : MonoBehaviour
 			StartCoroutine("ImmuneTime");
 		}
 	}
+
+
 	
 	public IEnumerator ImmuneTime()
     {
@@ -123,4 +133,10 @@ public class BossState : MonoBehaviour
         playerScript.recentlyDamaged = false;
 		//playerRigidbody.AddForce(knockbackDirection * knockbackForce, ForceMode.ImpulseMode);
     }
+
+	public IEnumerator WaitForCollision()
+	{
+		yield return new WaitForSeconds(0.3f);
+		boxCol.isTrigger = false;
+	}
 }
