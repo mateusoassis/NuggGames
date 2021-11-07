@@ -5821,6 +5821,10 @@ MonoBehaviour:
   dashForce: 50
   dashDuration: 0.25
   startDashTime: 0.25
+  dashAmount: 0
+  maxDashAmount: 2
+  resetDashCooldown: 1.5
+  resetDashTimer: 0
   isOnCoolDown: 0
   isNotMoving: 0
   isDashing: 0

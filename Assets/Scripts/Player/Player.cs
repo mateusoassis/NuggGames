@@ -15,6 +15,10 @@ public class Player : MonoBehaviour
     public float dashForce = 10f;
     public float dashDuration;
     public float startDashTime;
+	public int dashAmount;
+	public int maxDashAmount = 2;
+	public float resetDashCooldown;
+	public float resetDashTimer;
 
 	[Header("Booleanos e Direcao")]
     public bool isOnCoolDown;
@@ -69,6 +73,7 @@ public class Player : MonoBehaviour
         dashDuration = startDashTime;
 		isDashing = false;
 		playerCollider = GetComponent<CapsuleCollider>();
+		resetDashTimer = resetDashCooldown;
     }
 
     void Update()
@@ -155,59 +160,105 @@ public class Player : MonoBehaviour
 				//FORÇA ADICIONADA EM CADA DIREÇÃO, os que tem /mathf.sqrt(2f) são por que são em diagonal, aí precisa dividir por raiz de 2 para ter o dash na mesma distância que os nas direções normais
                 if (Input.GetKey(KeyCode.Space) && direction == 1 && !isDashing)
                 {
-					rb.AddForce((Vector3.right + Vector3.forward) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
-                    isDashing = true;                    
-					direction = 0;
+					if(dashAmount < maxDashAmount)
+					{
+						rb.AddForce((Vector3.right + Vector3.forward) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
+						isDashing = true;                    
+						direction = 0;
+						dashAmount++;
+					}					
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 2 && !isDashing)
-                {                   
-					rb.AddForce((Vector3.left + Vector3.back) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
-                    isDashing = true;
-					direction = 0;
+                {     
+					if(dashAmount < maxDashAmount)
+					{			
+						rb.AddForce((Vector3.left + Vector3.back) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
+						isDashing = true;
+						direction = 0;
+						dashAmount++;
+					}
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 3 && !isDashing)
-                {
-					rb.AddForce((Vector3.forward + Vector3.left) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
-                    isDashing = true;
-					direction = 0;				
+                {     
+					if(dashAmount < maxDashAmount)
+					{
+						rb.AddForce((Vector3.forward + Vector3.left) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
+						isDashing = true;
+						direction = 0;
+						dashAmount++;
+					}			
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 4 && !isDashing)
-                {
-                  	rb.AddForce((Vector3.back + Vector3.right) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
-					isDashing = true;
-					direction = 0;
+                {     
+					if(dashAmount < maxDashAmount)
+					{
+						rb.AddForce((Vector3.back + Vector3.right) * ((dashForce)/Mathf.Sqrt(2f)), ForceMode.VelocityChange);
+						isDashing = true;
+						direction = 0;
+						dashAmount++;
+					}
 					
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 5 && !isDashing)
-                {
-					rb.AddForce(Vector3.forward * dashForce, ForceMode.VelocityChange);
-                    isDashing = true;
-					direction = 0;				
+                {     
+					if(dashAmount < maxDashAmount)
+					{
+						rb.AddForce(Vector3.forward * dashForce, ForceMode.VelocityChange);
+						isDashing = true;
+						direction = 0;
+						dashAmount++;
+					}				
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 6 && !isDashing)
-                {
-					rb.AddForce(Vector3.right * dashForce, ForceMode.VelocityChange);
-                    isDashing = true;
-					direction = 0;					
+                {     
+					if(dashAmount < maxDashAmount)
+					{
+						rb.AddForce(Vector3.right * dashForce, ForceMode.VelocityChange);
+						isDashing = true;
+						direction = 0;
+						dashAmount++;
+					}					
                 }
                 else if (Input.GetKey(KeyCode.Space) && direction == 7 && !isDashing)
-                {
-					rb.AddForce(Vector3.left * dashForce, ForceMode.VelocityChange);
-                    isDashing = true;
-					direction = 0;					
+                {     
+					if(dashAmount < maxDashAmount)
+					{
+						rb.AddForce(Vector3.left * dashForce, ForceMode.VelocityChange);
+						isDashing = true;
+						direction = 0;
+						dashAmount++;
+					}					
                 }         
                 else if (Input.GetKey(KeyCode.Space) && direction == 8 && !isDashing)
-                {
-                    rb.AddForce(Vector3.back * dashForce, ForceMode.VelocityChange);
-                    isDashing = true;
-					direction = 0;
+                {     
+					if(dashAmount < maxDashAmount)
+					{
+						rb.AddForce(Vector3.back * dashForce, ForceMode.VelocityChange);
+						isDashing = true;
+						direction = 0;
+						dashAmount++;
+					}
                 }
 				if(isDashing)
 				{
 					dashDuration -= Time.deltaTime;
 				}
+				if(dashAmount > 0 && resetDashTimer > 0f)
+				{
+					resetDashTimer -= Time.deltaTime;
+				} else 
+				{
+					ResetDash();
+				}
+					
             }
         }
+		
+	public void ResetDash()
+	{
+		dashAmount = 0;
+		resetDashTimer = resetDashCooldown;
+	}
 	
     void Aim()
     {
